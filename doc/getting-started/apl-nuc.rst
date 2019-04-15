@@ -31,10 +31,18 @@ Connecting to the serial port
 You can just ignore this section if command line is not needed via the serial console.
 Or you have to prepare these cables to enable the serial port.
 
-.. image:: images/KBL-serial-port-header-to-RS232-cable.jpg
-   :target: https://www.amazon.com/dp/B07BV1W6N8/ref=cm_sw_r_cp_ep_dp_wYm0BbABD5AK6
+.. figure:: images/KBL-serial-port-header-to-RS232-cable.jpg
+   :align: center
 
-.. image:: images/RS232-to-USB-to-Host-cable.png
+   KBL serial port header to `RS232 cable
+   <https://www.amazon.com/dp/B07BV1W6N8/ref=cm_sw_r_cp_ep_dp_wYm0BbABD5AK6>`_
+
+
+.. figure:: images/USB-to-RS232-serial-cable.png
+   :align: center
+
+   USB to `RS232 serial cable
+   <https://www.amazon.com/s?k=USB+to+RS232+UNITEK&ref=nb_sb_noss>`_
 
 
 Firmware update on the NUC
