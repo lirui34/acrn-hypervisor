@@ -189,7 +189,12 @@ function upgrade_uos()
     else
         cd ~
         echo "Downloading UOS image: $uos_image_link"
-        curl $uos_image_link -o clear-$uos_ver-kvm.img.xz || echo "Download UOS failed." && rm clear-$uos_ver-kvm.img.xz && exit 1
+        curl $uos_image_link -o clear-$uos_ver-kvm.img.xz
+        if [[ $? -ne 0 ]]; then
+            echo "Download UOS failed."
+            rm clear-$uos_ver-kvm.img.xz
+            exit 1
+        fi
         uos_img=clear-$uos_ver-kvm.img
         if [[ -f $uos_img ]] && [[ -f $uos_img.xz ]]; then echo "Moving $uos_img to $uos_img.old."; mv $uos_img $uos_img.old; fi
         echo "Unxz UOS image: clear-$uos_ver-kvm.img.xz"
@@ -204,12 +209,12 @@ function upgrade_uos()
     umount /mnt
     sync
 
-    cp -r /usr/share/acrn/samples/nuc/launch_uos.sh ~/
-    sed -i "s/\(virtio-blk.*\)\/home\/clear\/uos\/uos.img/\1$(echo $uos_img | sed "s/\//\\\\\//g")/" ~/launch_uos.sh
-    [[ -z `grep $uos_img ~/launch_uos.sh` ]] && echo "Fail to replace uos image in launch script: ~/launch_uos.sh" && exit 1
+    cp -r /usr/share/acrn/samples/nuc/launch_uos.sh ~/launch_uos_$uos_ver.sh
+    sed -i "s/\(virtio-blk.*\)\/home\/clear\/uos\/uos.img/\1$(echo $uos_img | sed "s/\//\\\\\//g")/" ~/launch_uos_$uos_ver.sh
+    [[ -z `grep $uos_img ~/launch_uos_$uos_ver.sh` ]] && echo "Fail to replace uos image in launch script: ~/launch_uos_$uos_ver.sh" && exit 1
     echo "Upgrade UOS done..."
     echo "Now you can run this command to start UOS..."
-    echo "# cd ~/ && ./launch_uos.sh"
+    echo "sudo /root/launch_uos_$uos_ver.sh"
     exit
 }
 
