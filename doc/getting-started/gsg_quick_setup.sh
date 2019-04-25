@@ -189,7 +189,12 @@ function upgrade_uos()
     else
         cd ~
         echo "Downloading UOS image: $uos_image_link"
-        curl $uos_image_link -o clear-$uos_ver-kvm.img.xz || echo "Download UOS failed." && rm clear-$uos_ver-kvm.img.xz && exit 1
+        curl $uos_image_link -o clear-$uos_ver-kvm.img.xz
+        if [[ $? -ne 0 ]]; then
+            echo "Download UOS failed."
+            rm clear-$uos_ver-kvm.img.xz
+            exit 1
+        fi
         uos_img=clear-$uos_ver-kvm.img
         if [[ -f $uos_img ]] && [[ -f $uos_img.xz ]]; then echo "Moving $uos_img to $uos_img.old."; mv $uos_img $uos_img.old; fi
         echo "Unxz UOS image: clear-$uos_ver-kvm.img.xz"

@@ -91,6 +91,9 @@ complete this setup.
 #. After installation is complete, boot into Clear Linux OS, login as
    **clear**, and set a password.
 
+#. If you want to set up ACRN hypervisor, Service OS or Guest OS automatically, we recommend you follow
+   the instruction :ref:`quick-setup-guide` to set up ACRN within just few minutes.
+
 #. Clear Linux OS is set to automatically update itself. We recommend that you disable
    this feature to have more control over when the updates happen. Use this command
    to disable the autoupdate feature:
@@ -398,3 +401,53 @@ Set up Reference UOS
       :align: center
       :name: gsg-successful-boot
 
+
+.. _quick-setup-guide:
+
+Use the script to set up ACRN automatically
+===========================================
+
+It is little complicate to setup the SOS or UOS, so we provide a script to do it quickly and automatically.
+You can find the script `here
+<https://raw.githubusercontent.com/projectacrn/acrn-hypervisor/master/doc/getting-started/gsg_quick_setup.sh>`__
+and please note that should be run with root privilege since it will modify various system parameters.
+
+#. Installing Clear Linux and login system
+
+#. Open a terminal
+
+#. Run ``cd ~ && wget https://raw.githubusercontent.com/projectacrn/acrn-hypervisor/master/doc/getting-started/gsg_quick_setup.sh``
+
+#. Run ``sudo sh gsg_quick_setup.sh -s 28920`` to setup SOS
+
+   .. figure:: images/quick-setup-start.png
+   :align: center
+
+   You'll see this output if all the process is complete.
+
+   .. note::
+      This script is using /dev/sda1 as default EFI System Partition (ESP). The ESP
+      may be different based on your hardware and then you should specify it directly with '-e' option.
+      Here is an example for setup SOS on NVMe SSD: ``sudo sh gsg_quick_setup.sh -s 28920 -e /dev/nvme0n1p1``
+
+   .. note::
+      If you don't need reboot automatically after set up SOS, then you should run this command:
+      ``sudo sh gsg_quick_setup.sh -s 28920 -d``
+
+#. If you want to continue to set up a Guest OS after boot SOS, then you can run
+   ``sudo sh gsg_quick_setup.sh -u 28920`` to get your UOS ready.
+
+   Downloading UOS image.
+
+   .. figure:: images/upgrading-uos.png
+   :align: center
+
+   Set up UOS successfully.
+
+   .. figure:: images/setup-uos-success.png
+   :align: center
+
+   .. note::
+      If you have a local UOS image which is named clear-28920-kvm.img.xz or clear-28920-kvm.img
+      in home (root) directory, then you can run ``sudo sh gsg_quick_setup.sh -u 28920 -k``
+      to skip downloading it again and set up UOS directly.
